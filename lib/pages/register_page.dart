@@ -1,17 +1,50 @@
+import 'package:chat/auth/auth_service.dart';
 import 'package:flutter/material.dart';
 
 import '../components/my_button.dart';
 import '../components/my_text_field.dart';
 
 class RegisterPage extends StatelessWidget {
-  RegisterPage({super.key});
+  RegisterPage({super.key, this.onTap});
+
+  final void Function()? onTap;
 
   final _emailController = TextEditingController();
   final _pwController = TextEditingController();
   final _confirmPwController = TextEditingController();
 
 //register method
-  void register() {}
+  void register(BuildContext context) {
+    //get auth service
+    final _auth = AuthService();
+
+    if (_pwController.text == _confirmPwController.text) {
+      //if the passwords match, create user
+      try {
+        _auth.signUpWithEmailAndPassword(
+            _emailController.text, _pwController.text);
+      } catch (e) {
+        showDialog(
+            context: context,
+            builder: (context) => AlertDialog(
+                  title: Text(e.toString()),
+                ));
+      }
+    }
+    //if passwords don't match show an error
+    else {
+      showDialog(
+          context: context,
+          builder: (context) => const AlertDialog(
+                title: Center(
+                  child: Text(
+                    'Passwords don\'t match',
+                    style: TextStyle(fontSize: 16),
+                  ),
+                ),
+              ));
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -49,13 +82,16 @@ class RegisterPage extends StatelessWidget {
           const SizedBox(height: 25),
 
           //login button
-          MyButton(text: 'Register', onTap: register),
+          MyButton(text: 'Register', onTap: () => register(context)),
           const SizedBox(height: 25),
 
           //register now
-          const Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-            Text('Already have an account?'),
-            Text(' Login now', style: TextStyle(fontWeight: FontWeight.bold))
+          Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+            const Text('Already have an account?'),
+            GestureDetector(
+                onTap: onTap,
+                child: const Text(' Login now',
+                    style: TextStyle(fontWeight: FontWeight.bold)))
           ])
         ])));
   }
