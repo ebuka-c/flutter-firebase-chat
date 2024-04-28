@@ -29,11 +29,11 @@ class MyApp extends StatelessWidget {
 
       // ),
       theme: lightMode,
-      home: AuthGate(),
+      home: const AuthGate(),
       routes: {
         '/login': (context) => LoginPage(),
         '/register': (context) => RegisterPage(),
-        '/settings': (context) => SettingsPage(),
+        '/settings': (context) => const SettingsPage(),
       },
     );
   }

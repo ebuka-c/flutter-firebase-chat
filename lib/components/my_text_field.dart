@@ -4,11 +4,11 @@ class MyTextField extends StatelessWidget {
   const MyTextField(
       {super.key,
       required this.hintText,
-      required this.obscureText,
+      this.obscureText,
       required this.controller});
 
   final String hintText;
-  final bool obscureText;
+  final bool? obscureText;
   final TextEditingController controller;
 
   @override
@@ -16,7 +16,7 @@ class MyTextField extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 25.0),
       child: TextField(
-        obscureText: obscureText,
+        obscureText: obscureText ?? false,
         controller: controller,
         onTapOutside: (PointerDownEvent event) {
           FocusManager.instance.primaryFocus?.unfocus();

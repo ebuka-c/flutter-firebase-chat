@@ -1,4 +1,4 @@
-import 'package:chat/auth/auth_service.dart';
+import 'package:chat/services/auth_service.dart';
 import 'package:flutter/material.dart';
 
 import '../components/my_button.dart';
@@ -13,11 +13,11 @@ class RegisterPage extends StatelessWidget {
   final _pwController = TextEditingController();
   final _confirmPwController = TextEditingController();
 
+  //get auth service
+  final _auth = AuthService();
+
 //register method
   void register(BuildContext context) {
-    //get auth service
-    final _auth = AuthService();
-
     if (_pwController.text == _confirmPwController.text) {
       //if the passwords match, create user
       try {
@@ -36,13 +36,9 @@ class RegisterPage extends StatelessWidget {
       showDialog(
           context: context,
           builder: (context) => const AlertDialog(
-                title: Center(
-                  child: Text(
-                    'Passwords don\'t match',
-                    style: TextStyle(fontSize: 16),
-                  ),
-                ),
-              ));
+              title: Center(
+                  child: Text('Passwords don\'t match',
+                      style: TextStyle(fontSize: 16)))));
     }
   }
 
